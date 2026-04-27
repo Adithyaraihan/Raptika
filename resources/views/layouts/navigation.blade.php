@@ -1,100 +1,117 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+<nav class="sj-sidebar">
+    <div class="sidebar-header">
+        <div class="brand-block">
+            <div class="brand-raptika">
+                <span class="brand-r">R</span><span class="brand-rest">APTIKA</span>
             </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            <span class="brand-sub">Rekap Data Aptika</span>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+    <div class="sidebar-content">
+        <div class="nav-group">
+            <p class="group-title">Menu Utama</p>
+            
+            {{-- Link SMART Jabar --}}
+            <a href="{{ url('/smartjabar/joined') }}" 
+               class="nav-link {{ Request::is('smartjabar/joined') ? 'active' : '' }}">
+             
+                <span>SMART Jabar</span>
+            </a>
+
+            {{-- Link Integrasi --}}
+            <a href="{{ url('/integrasi') }}" 
+               class="nav-link {{ Request::is('integrasi*') ? 'active' : '' }}">
+              
+                <span>Integrasi-Interoperabilitas</span>
+            </a>
+
+            {{-- Link Pengelolaan --}}
+            <a href="{{ url('/pengelolaan') }}" 
+               class="nav-link {{ Request::is('pengelolaan*') ? 'active' : '' }}">
+           
+                <span>Pengelolaan Aplikasi</span>
+            </a>
+            
+            {{-- Link Rekayasa --}}
+            <a href="{{ url('/rekayasa') }}" 
+               class="nav-link {{ Request::is('rekayasa*') ? 'active' : '' }}">
+             
+                <span>Rekayasa Aplikasi</span>
+            </a>
         </div>
+    </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
+    <div class="sidebar-footer">
+        <div class="user-profile">
+            <div class="user-avatar">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</div>
+            <div>
+                <p class="user-name">{{ Auth::user()->name ?? 'User' }}</p>
+                <a href="/profile" class="user-action">Pengaturan</a>
             </div>
         </div>
+        
+        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+            @csrf
+            <button type="submit" class="logout-btn" title="Logout" style="border:none; cursor:pointer;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
+        </form>
     </div>
 </nav>
+
+<style>
+    /* CSS tetap sama dengan yang kamu miliki, namun saya tambahkan sedikit perbaikan */
+    .sj-sidebar {
+        width: 280px; height: 100vh; background: #1E74BC;
+        display: flex; flex-direction: column; position: fixed;
+        left: 0; top: 0; overflow: hidden; z-index: 100;
+    }
+
+    .sidebar-header { padding: 1.35rem 1.5rem 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .brand-raptika { font-family: 'DM Mono', monospace; font-size: 1.7rem; color: #fff; }
+    .brand-r { color: #22C55E; font-weight: 700; }
+    .brand-sub { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'DM Mono', monospace; }
+
+    .sidebar-content { flex: 1; padding: 1rem; overflow-y: auto; }
+    .group-title { font-size: 0.65rem; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.5rem; padding-left: 0.5rem; }
+
+    .nav-link {
+        display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.85rem;
+        border-radius: 10px; text-decoration: none; color: rgba(255,255,255,0.8);
+        font-size: 0.875rem; transition: all 0.2s; margin-bottom: 4px;
+    }
+
+    .nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .nav-link.active { background: rgba(255,255,255,0.15); color: #fff; font-weight: 600; }
+    .nav-link.active::before {
+        content: ''; position: absolute; left: 0; top: 25%; bottom: 25%;
+        width: 4px; background: #22C55E; border-radius: 0 4px 4px 0;
+    }
+
+    .nav-icon {
+        width: 30px; height: 30px; background: rgba(255,255,255,0.1);
+        border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
+    .nav-link.active .nav-icon { background: rgba(34,197,94,0.3); }
+
+    .sidebar-footer {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.1);
+        background: rgba(0,0,0,0.1);
+    }
+    .user-profile { display: flex; align-items: center; gap: 0.7rem; }
+    .user-avatar { 
+        width: 35px; height: 35px; border-radius: 50%; background: #22C55E; 
+        color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;
+    }
+    .user-name { font-size: 0.85rem; color: #fff; margin: 0; }
+    .user-action { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-decoration: none; }
+    .logout-btn { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; }
+    .logout-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
+</style>
