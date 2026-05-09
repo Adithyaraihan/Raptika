@@ -9,7 +9,10 @@ return new class extends Migration {
     {
         Schema::create('rekayasa_mentoring_performance', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('service_type_id');
+            // $table->unsignedBigInteger('service_type_id');
+            $table->foreignId('service_type_id')
+                ->constrained('service_types')
+                ->cascadeOnDelete()->cascadeOnUpdate();
             $table->tinyInteger('month');
             $table->smallInteger('year');
             $table->integer('total_apps')->default(0);

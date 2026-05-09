@@ -18,17 +18,17 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg: #0d1117;
-            --surface: #161b22;
-            --border: #21262d;
-            --accent: #2ea043;
-            --accent-2: #1f6feb;
-            --danger: #da3633;
-            --text: #e6edf3;
-            --muted: #7d8590;
-            --mono: 'DM Mono', monospace;
-            --sans: 'Plus Jakarta Sans', sans-serif;
-        }
+    --bg: #f6f8fc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --accent: #1d4ed8;
+    --accent-2: #0ea5e9;
+    --danger: #dc2626;
+    --text: #0f172a;
+    --muted: #64748b;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Plus Jakarta Sans', sans-serif;
+}
 
         body {
             font-family: var(--sans);

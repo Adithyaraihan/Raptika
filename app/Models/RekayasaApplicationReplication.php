@@ -10,7 +10,7 @@ class RekayasaApplicationReplication extends Model
     protected $table    = 'rekayasa_application_replications';
     protected $fillable = [
         'service_type_id',
-        'rekayasa_institution_category_id',
+        'institution_id',
         'year',
         'month',
         'total_replications',
@@ -23,6 +23,6 @@ class RekayasaApplicationReplication extends Model
 
     public function institutionCategory(): BelongsTo
     {
-        return $this->belongsTo(RekayasaInstitutionCategory::class, 'rekayasa_institution_category_id');
+        return $this->belongsTo(GeneralInstitutionCategory::class, 'institution_id');
     }
 }

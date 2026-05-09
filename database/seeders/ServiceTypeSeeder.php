@@ -10,7 +10,7 @@ class ServiceTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        $types = ['SADA Jabar', 'Smart Jabar', 'Rekayasa Applikasi'];
+        $types = ['SADA Jabar', 'Smart Jabar', 'Rekayasa Applikasi', 'Integrasi-Interop', 'Pengelolaan Aplikasi', 'Sidebar'];
 
         foreach ($types as $type) {
             ServiceType::firstOrCreate(['name' => $type]);

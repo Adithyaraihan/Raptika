@@ -9,8 +9,12 @@ return new class extends Migration {
     {
         Schema::create('smartjabar_usage_stats', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('service_type_id');
-            $table->unsignedBigInteger('opd_id');
+            // $table->unsignedBigInteger('service_type_id');
+            $table->foreignId('service_type_id')
+                ->constrained('service_types')
+                ->cascadeOnDelete()->cascadeOnUpdate();
+            // $table->unsignedBigInteger('opd_id');
+            $table->foreignId('opd_id')->constrained('general_opd')->cascadeOnDelete();
             $table->tinyInteger('month');
             $table->smallInteger('year');
             $table->integer('total_asn')->default(0);

@@ -9,10 +9,13 @@ return new class extends Migration {
     {
         Schema::create('rekayasa_application_replications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('service_type_id');
-            $table->unsignedBigInteger('rekayasa_institution_category_id');
-            $table->smallInteger('year');
+            // $table->unsignedBigInteger('service_type_id');
+            $table->foreignId('service_type_id')
+                ->constrained('service_types')
+                ->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('institution_id')->constrained('general_institution_categories');
             $table->tinyInteger('month');
+            $table->smallInteger('year');
             $table->bigInteger('total_replications')->default(0);
             $table->timestamps();
         });

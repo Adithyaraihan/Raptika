@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SmartjabarOpd extends Model
+class GeneralOpd extends Model
 {
-    protected $table    = 'smartjabar_opd';
+    protected $table    = 'general_opd';
     protected $fillable = ['name'];
 
     public function usageStats(): HasMany

@@ -13,17 +13,17 @@
             <p class="group-title">Menu Utama</p>
             
             {{-- Link SMART Jabar --}}
-            <a href="{{ url('/smartjabar/joined') }}" 
+            <a href="{{ url('/smartjabar/joined-apps') }}" 
                class="nav-link {{ Request::is('smartjabar/joined') ? 'active' : '' }}">
              
                 <span>SMART Jabar</span>
             </a>
 
             {{-- Link Integrasi --}}
-            <a href="{{ url('/integrasi') }}" 
-               class="nav-link {{ Request::is('integrasi*') ? 'active' : '' }}">
+            <a href="{{ url('/sadajabar') }}" 
+               class="nav-link {{ Request::is('sadajabar*') ? 'active' : '' }}">
               
-                <span>Integrasi-Interoperabilitas</span>
+                <span>SADA Jabar</span>
             </a>
 
             {{-- Link Pengelolaan --}}

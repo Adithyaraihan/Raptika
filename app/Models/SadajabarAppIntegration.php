@@ -13,7 +13,7 @@ class SadajabarAppIntegration extends Model
         'year',
         'app_count',
         'service_type_id',
-        'sadajabar_institution_categories_id',
+        'institution_id',
     ];
 
     public function serviceType(): BelongsTo
@@ -23,6 +23,6 @@ class SadajabarAppIntegration extends Model
 
     public function institutionCategory(): BelongsTo
     {
-        return $this->belongsTo(SadajabarInstitutionCategory::class, 'sadajabar_institution_categories_id');
+        return $this->belongsTo(GeneralInstitutionCategory::class, 'institution_id');
     }
 }

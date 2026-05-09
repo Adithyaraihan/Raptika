@@ -24,6 +24,6 @@ class SmartjabarUsageStat extends Model
 
     public function opd(): BelongsTo
     {
-        return $this->belongsTo(SmartjabarOpd::class, 'opd_id');
+        return $this->belongsTo(GeneralOpd::class, 'opd_id');
     }
 }

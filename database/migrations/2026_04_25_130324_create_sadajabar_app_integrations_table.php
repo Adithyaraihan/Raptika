@@ -12,8 +12,11 @@ return new class extends Migration {
             $table->tinyInteger('month');
             $table->smallInteger('year');
             $table->integer('app_count')->default(0);
-            $table->unsignedBigInteger('service_type_id');
-            $table->unsignedBigInteger('sadajabar_institution_categories_id');
+            $table->foreignId('service_type_id')->constrained('service_types')->cascadeOnDelete();
+            // $table->unsignedBigInteger('sadajabar_institution_categories_id');
+            $table->foreignId('institution_id')
+                ->constrained('general_institution_categories',)
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('rekayasa_institution_categories', function (Blueprint $table) {
+        Schema::create('general_institution_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -15,6 +15,6 @@ return new class extends Migration {
     }
     public function down(): void
     {
-        Schema::dropIfExists('rekayasa_institution_categories');
+        Schema::dropIfExists('general_institution_categories');
     }
 };
