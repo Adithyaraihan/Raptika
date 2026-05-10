@@ -14,4 +14,9 @@ class GeneralOpd extends Model
     {
         return $this->hasMany(SmartjabarUsageStat::class, 'opd_id');
     }
+
+    public function sidebarOpdUsages(): HasMany
+    {
+        return $this->hasMany(SidebarOpdUsage::class, 'opd_id');
+    }
 }

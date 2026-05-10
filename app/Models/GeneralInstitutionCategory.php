@@ -12,6 +12,16 @@ class GeneralInstitutionCategory extends Model
 
     public function appIntegrations(): HasMany
     {
-        return $this->hasMany(SadajabarAppIntegration::class, 'general_institution_categories_id');
+        return $this->hasMany(SadajabarAppIntegration::class, 'institution_id');
+    }
+
+    public function applicationReplications(): HasMany
+    {
+        return $this->hasMany(RekayasaApplicationReplication::class, 'institution_id');
+    }
+
+    public function integrationSummaries(): HasMany
+    {
+        return $this->hasMany(IntopIntegrationSummary::class, 'institution_id');
     }
 }
