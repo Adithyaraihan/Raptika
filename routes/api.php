@@ -14,13 +14,19 @@ use App\Http\Controllers\Intop\ServiceCatalogController;
 use App\Http\Controllers\Sidebar\DocumentStatController;
 use App\Http\Controllers\Sidebar\MetricController;
 use App\Http\Controllers\Sidebar\OpdUsageController;
-use App\Http\Controllers\SmartJabar\IndexController as SmartJabarIndexController;
 use App\Http\Controllers\SmartJabar\JoinedAppController;
 use App\Http\Controllers\SmartJabar\UsageStatController;
 use App\Http\Controllers\SadaJabar\AppIntegrationController;
 use App\Http\Controllers\SadaJabar\EncryptionStatController;
-use App\Http\Controllers\SadaJabar\IndexController as SadaJabarIndexController;
 
+use App\Http\Controllers\Appman\AppVulnerabilityController;
+use App\Http\Controllers\Appman\DevelopmentTargetController;
+use App\Http\Controllers\Appman\DriveJabarStatController;
+use App\Http\Controllers\Appman\EmailManagementStatController;
+use App\Http\Controllers\Appman\IntegrationMappingController;
+use App\Http\Controllers\Appman\InventoryStatController;
+use App\Http\Controllers\Appman\KatalapsRegencyController;
+use App\Http\Controllers\Appman\TeamSupportFacilityController;
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
@@ -37,13 +43,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy']);
 
     Route::prefix('smartjabar')->group(function () {
-        Route::get('/joined-apps', [SmartJabarIndexController::class, 'index']);
+        Route::get('/joined-apps', [JoinedAppController::class, 'index']);
         Route::get('/joined-apps/create', [JoinedAppController::class, 'create']);
         Route::post('/joined-apps', [JoinedAppController::class, 'store']);
         Route::get('/joined-apps/{id}/edit', [JoinedAppController::class, 'edit']);
         Route::put('/joined-apps/{id}', [JoinedAppController::class, 'update']);
         Route::delete('/joined-apps/{id}', [JoinedAppController::class, 'destroy']);
 
+        Route::get('/stats', [UsageStatController::class, 'index']);
         Route::get('/stats/create', [UsageStatController::class, 'create']);
         Route::post('/stats', [UsageStatController::class, 'store']);
         Route::get('/stats/{id}/edit', [UsageStatController::class, 'edit']);
@@ -52,14 +59,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('sadajabar')->group(function () {
-        Route::get('/', [SadaJabarIndexController::class, 'index']);
-
+        Route::get('/integrasi', [AppIntegrationController::class, 'index']);
         Route::get('/integrasi/create', [AppIntegrationController::class, 'create']);
         Route::post('/integrasi', [AppIntegrationController::class, 'store']);
         Route::get('/integrasi/{id}/edit', [AppIntegrationController::class, 'edit']);
         Route::put('/integrasi/{id}', [AppIntegrationController::class, 'update']);
         Route::delete('/integrasi/{id}', [AppIntegrationController::class, 'destroy']);
 
+        Route::get('/enkripsi', [EncryptionStatController::class, 'index']);
         Route::get('/enkripsi/create', [EncryptionStatController::class, 'create']);
         Route::post('/enkripsi', [EncryptionStatController::class, 'store']);
         Route::get('/enkripsi/{id}/edit', [EncryptionStatController::class, 'edit']);
@@ -120,5 +127,63 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/opd-usages/{id}/edit', [OpdUsageController::class, 'edit']);
         Route::put('/opd-usages/{id}', [OpdUsageController::class, 'update']);
         Route::delete('/opd-usages/{id}', [OpdUsageController::class, 'destroy']);
+    });
+
+    Route::prefix('appman')->group(function () {
+        Route::get('/app-vulnerabilities', [AppVulnerabilityController::class, 'index']);
+        Route::get('/app-vulnerabilities/create', [AppVulnerabilityController::class, 'create']);
+        Route::post('/app-vulnerabilities', [AppVulnerabilityController::class, 'store']);
+        Route::get('/app-vulnerabilities/{id}/edit', [AppVulnerabilityController::class, 'edit']);
+        Route::put('/app-vulnerabilities/{id}', [AppVulnerabilityController::class, 'update']);
+        Route::delete('/app-vulnerabilities/{id}', [AppVulnerabilityController::class, 'destroy']);
+
+        Route::get('/development-targets', [DevelopmentTargetController::class, 'index']);
+        Route::get('/development-targets/create', [DevelopmentTargetController::class, 'create']);
+        Route::post('/development-targets', [DevelopmentTargetController::class, 'store']);
+        Route::get('/development-targets/{id}/edit', [DevelopmentTargetController::class, 'edit']);
+        Route::put('/development-targets/{id}', [DevelopmentTargetController::class, 'update']);
+        Route::delete('/development-targets/{id}', [DevelopmentTargetController::class, 'destroy']);
+
+        Route::get('/drive-jabar-stats', [DriveJabarStatController::class, 'index']);
+        Route::get('/drive-jabar-stats/create', [DriveJabarStatController::class, 'create']);
+        Route::post('/drive-jabar-stats', [DriveJabarStatController::class, 'store']);
+        Route::get('/drive-jabar-stats/{id}/edit', [DriveJabarStatController::class, 'edit']);
+        Route::put('/drive-jabar-stats/{id}', [DriveJabarStatController::class, 'update']);
+        Route::delete('/drive-jabar-stats/{id}', [DriveJabarStatController::class, 'destroy']);
+
+        Route::get('/email-management-stats', [EmailManagementStatController::class, 'index']);
+        Route::get('/email-management-stats/create', [EmailManagementStatController::class, 'create']);
+        Route::post('/email-management-stats', [EmailManagementStatController::class, 'store']);
+        Route::get('/email-management-stats/{id}/edit', [EmailManagementStatController::class, 'edit']);
+        Route::put('/email-management-stats/{id}', [EmailManagementStatController::class, 'update']);
+        Route::delete('/email-management-stats/{id}', [EmailManagementStatController::class, 'destroy']);
+
+        Route::get('/integration-mappings', [IntegrationMappingController::class, 'index']);
+        Route::get('/integration-mappings/create', [IntegrationMappingController::class, 'create']);
+        Route::post('/integration-mappings', [IntegrationMappingController::class, 'store']);
+        Route::get('/integration-mappings/{id}/edit', [IntegrationMappingController::class, 'edit']);
+        Route::put('/integration-mappings/{id}', [IntegrationMappingController::class, 'update']);
+        Route::delete('/integration-mappings/{id}', [IntegrationMappingController::class, 'destroy']);
+
+        Route::get('/inventory-stats', [InventoryStatController::class, 'index']);
+        Route::get('/inventory-stats/create', [InventoryStatController::class, 'create']);
+        Route::post('/inventory-stats', [InventoryStatController::class, 'store']);
+        Route::get('/inventory-stats/{id}/edit', [InventoryStatController::class, 'edit']);
+        Route::put('/inventory-stats/{id}', [InventoryStatController::class, 'update']);
+        Route::delete('/inventory-stats/{id}', [InventoryStatController::class, 'destroy']);
+
+        Route::get('/katalaps-regencies', [KatalapsRegencyController::class, 'index']);
+        Route::get('/katalaps-regencies/create', [KatalapsRegencyController::class, 'create']);
+        Route::post('/katalaps-regencies', [KatalapsRegencyController::class, 'store']);
+        Route::get('/katalaps-regencies/{id}/edit', [KatalapsRegencyController::class, 'edit']);
+        Route::put('/katalaps-regencies/{id}', [KatalapsRegencyController::class, 'update']);
+        Route::delete('/katalaps-regencies/{id}', [KatalapsRegencyController::class, 'destroy']);
+
+        Route::get('/team-support-facilities', [TeamSupportFacilityController::class, 'index']);
+        Route::get('/team-support-facilities/create', [TeamSupportFacilityController::class, 'create']);
+        Route::post('/team-support-facilities', [TeamSupportFacilityController::class, 'store']);
+        Route::get('/team-support-facilities/{id}/edit', [TeamSupportFacilityController::class, 'edit']);
+        Route::put('/team-support-facilities/{id}', [TeamSupportFacilityController::class, 'update']);
+        Route::delete('/team-support-facilities/{id}', [TeamSupportFacilityController::class, 'destroy']);
     });
 });

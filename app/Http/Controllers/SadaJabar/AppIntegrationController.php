@@ -11,6 +11,15 @@ class AppIntegrationController extends Controller
 {
     protected $sadajabarId = 1;
 
+    public function index()
+    {
+        $data = SadajabarAppIntegration::with('institutionCategory')
+            ->where('service_type_id', $this->sadajabarId)
+            ->orderByDesc('year')->orderByDesc('month')->get();
+
+        return response()->json(compact('data'));
+    }
+
     public function create()
     {
         $categories = GeneralInstitutionCategory::all();

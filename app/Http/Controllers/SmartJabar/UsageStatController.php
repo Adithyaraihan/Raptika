@@ -56,6 +56,14 @@ class UsageStatController extends Controller
         ];
     }
 
+    public function index()
+    {
+        $data = SmartjabarUsageStat::where('service_type_id', $this->smartJabarId)
+            ->orderByDesc('year')->orderByDesc('month')->get();
+
+        return response()->json(compact('data'));
+    }
+
     public function create()
     {
         $opds = $this->getOpdList();

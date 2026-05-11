@@ -10,6 +10,14 @@ class EncryptionStatController extends Controller
 {
     protected $sadajabarId = 1;
 
+    public function index()
+    {
+        $data = SadajabarEncryptionStat::where('service_type_id', $this->sadajabarId)
+            ->orderByDesc('year')->orderByDesc('month')->get();
+
+        return response()->json(compact('data'));
+    }
+
     public function create()
     {
         return response()->json(['message' => 'Success']);
