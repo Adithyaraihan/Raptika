@@ -34,7 +34,7 @@
             </a>
             
             {{-- Link Rekayasa --}}
-            <a href="{{ url('/rekayasa') }}" 
+            <a href="{{ url('/rekayasa/application-replications') }}" 
                class="nav-link {{ Request::is('rekayasa*') ? 'active' : '' }}">
              
                 <span>Rekayasa Aplikasi</span>

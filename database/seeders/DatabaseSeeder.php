@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ServiceTypeSeeder::class,
             GeneralOpdSeeder::class,
-            SadajabarInstitutionCategorySeeder::class,
+            GeneralInstitutionCategorySeeder::class,
 
         ]);
     }
