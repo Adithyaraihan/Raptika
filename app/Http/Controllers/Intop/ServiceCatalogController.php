@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class ServiceCatalogController extends Controller
 {
+
+    protected $intopId = 4;
+
     public function index()
     {
         $items = IntopServiceCatalog::query()->latest('id')->get();
@@ -22,11 +25,12 @@ class ServiceCatalogController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'service_type_id' => 'required|integer',
             'category'        => 'required|string|max:255',
             'service_name'    => 'required|string|max:255',
             'year'            => 'required|integer|min:2000|max:2099',
         ]);
+
+        $validated["service_type_id"] = $this->intopId;
 
         IntopServiceCatalog::create($validated);
 
@@ -42,11 +46,12 @@ class ServiceCatalogController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'service_type_id' => 'required|integer',
             'category'        => 'required|string|max:255',
             'service_name'    => 'required|string|max:255',
             'year'            => 'required|integer|min:2000|max:2099',
         ]);
+
+        $validated["service_type_id"] = $this->intopId;
 
         $item = IntopServiceCatalog::findOrFail($id);
         $item->update($validated);

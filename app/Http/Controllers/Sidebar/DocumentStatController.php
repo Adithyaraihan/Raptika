@@ -12,7 +12,7 @@ class DocumentStatController extends Controller
 
     public function index()
     {
-        $items = SidebarDocumentStat::with('serviceType')->where('service_type_id', $this->sidebarId)->latest('id')->get(); 
+        $items = SidebarDocumentStat::with('serviceType')->where('service_type_id', $this->sidebarId)->latest('id')->get();
         return response()->json(compact('items'));
     }
 
@@ -61,7 +61,13 @@ class DocumentStatController extends Controller
 
     public function destroy($id)
     {
-        SidebarDocumentStat::with('serviceType')->where('service_type_id', $this->sidebarId)->delete($id);
+
+        $item = SidebarDocumentStat::where('service_type_id', $this->sidebarId)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

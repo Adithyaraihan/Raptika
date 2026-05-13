@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\RekayasaApplicationReplication;
 use Illuminate\Http\Request;
 
-class ApplicationReplicationController extends Controller
+class   ApplicationReplicationController extends Controller
 {
     protected $rekayasaId = 3;
 
     public function index()
     {
-        $items = RekayasaApplicationReplication::with('serviceType')->where('service_type_id', $this->rekayasaId)->latest('id')->get(); 
+        $items = RekayasaApplicationReplication::with('serviceType')->where('service_type_id', $this->rekayasaId)->latest('id')->get();
         return response()->json(compact('items'));
     }
 
@@ -61,7 +61,12 @@ class ApplicationReplicationController extends Controller
 
     public function destroy($id)
     {
-        RekayasaApplicationReplication::with('serviceType')->where('service_type_id', $this->rekayasaId)->delete($id);
+        $item = RekayasaApplicationReplication::where('service_type_id', $this->rekayasaId)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

@@ -61,7 +61,12 @@ class OpdUsageController extends Controller
 
     public function destroy($id)
     {
-        SidebarOpdUsage::with('serviceType')->where('service_type_id', $this->sidebarId)->delete($id);
+        $item = SidebarOpdUsage::where('service_type_id', $this->sidebarId)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

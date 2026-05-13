@@ -7,7 +7,7 @@ use App\Models\SidebarMetric;
 use Illuminate\Http\Request;
 
 class MetricController extends Controller
-{   
+{
 
     protected $sidebarId = 6;
 
@@ -65,7 +65,12 @@ class MetricController extends Controller
 
     public function destroy($id)
     {
-        SidebarMetric::with('serviceType')->where('service_type_id', $this->sidebarId)->delete($id);
+        $item = SidebarMetric::where('service_type_id', $this->sidebarId)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

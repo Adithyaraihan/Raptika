@@ -20,44 +20,46 @@ class KatalapsRegencyController extends Controller
 
     public function create()
     {
-        $regencies = \App\Models\RegencyName::all(); return response()->json(compact('regencies'));
+        $regencies = \App\Models\RegencyName::all();
+        return response()->json(compact('regencies'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'regency_id' => 'required|exists:regency_names,id',
+            'regency_id' => 'required|exists:regencies_name,id',
             'month' => 'required|integer|min:1|max:12',
             'year' => 'required|integer|min:2000|max:2099',
             'app_count' => 'required|integer|min:0',
         ]);
-        
+
         $validated['service_type_id'] = $this->appmanId;
-        
+
         AppmanKatalapsRegency::create($validated);
-        
+
         return response()->json(['message' => 'Data berhasil ditambahkan.']);
     }
 
     public function edit($id)
     {
         $item = AppmanKatalapsRegency::findOrFail($id);
-        $regencies = \App\Models\RegencyName::all(); return response()->json(compact('item', 'regencies'));
+        $regencies = \App\Models\RegencyName::all();
+        return response()->json(compact('item', 'regencies'));
     }
 
     public function update(Request $request, $id)
     {
         $item = AppmanKatalapsRegency::findOrFail($id);
-        
+
         $validated = $request->validate([
-            'regency_id' => 'required|exists:regency_names,id',
+            'regency_id' => 'required|exists:regencies_name,id',
             'month' => 'required|integer|min:1|max:12',
             'year' => 'required|integer|min:2000|max:2099',
             'app_count' => 'required|integer|min:0',
         ]);
-        
+
         $item->update($validated);
-        
+
         return response()->json(['message' => 'Data berhasil diperbarui.']);
     }
 
@@ -65,7 +67,7 @@ class KatalapsRegencyController extends Controller
     {
         $item = AppmanKatalapsRegency::findOrFail($id);
         $item->delete();
-        
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

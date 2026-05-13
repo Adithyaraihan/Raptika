@@ -63,7 +63,13 @@ class MentoringPerformanceController extends Controller
 
     public function destroy($id)
     {
-        RekayasaMentoringPerformance::with('serviceType')->where('service_type_id', $this->rekayasaId)->delete($id);
+
+        $item = RekayasaMentoringPerformance::where('service_type_id', $this->rekayasaId)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

@@ -61,7 +61,12 @@ class IntegrationSummaryController extends Controller
 
     public function destroy($id)
     {
-        IntopIntegrationSummary::with('serviceType')->where('service_type_id', $this->intopId)->delete($id);
+        $item = IntopIntegrationSummary::where('service_type_id', $this->intopId)
+            ->where('id', $id) // Kunci utama: filter berdasarkan ID unik
+            ->firstOrFail();
+
+        $item->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

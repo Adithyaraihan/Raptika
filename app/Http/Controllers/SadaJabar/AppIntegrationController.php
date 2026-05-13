@@ -32,7 +32,7 @@ class AppIntegrationController extends Controller
             'year'                                => 'required|integer|min:2000|max:2099',
             'month'                               => 'required|integer|min:1|max:12',
             'app_count'                           => 'required|integer|min:0',
-            'sadajabar_institution_categories_id' => 'required|exists:sadajabar_institution_categories,id',
+            'institution_id' => 'required|exists:general_institution_categories,id',
         ]);
         $validated['service_type_id'] = $this->sadajabarId;
 
@@ -55,7 +55,7 @@ class AppIntegrationController extends Controller
             'year'                                => 'required|integer|min:2000|max:2099',
             'month'                               => 'required|integer|min:1|max:12',
             'app_count'                           => 'required|integer|min:0',
-            'sadajabar_institution_categories_id' => 'required|exists:sadajabar_institution_categories,id',
+            'institution_id' => 'required|exists:general_institution_categories,id',
         ]);
         $item->update($validated);
 
