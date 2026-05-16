@@ -11,11 +11,13 @@ class IntopServiceCatalog extends Model
 
     protected $fillable = [
         'service_type_id',
-        'category',
-        'service_name',
+        'month',
         'year',
+        'adm_service_count',
+        'public_service_count',
+        'target_abs',
+        'achievement_abs',
     ];
-
     public function serviceType(): BelongsTo
     {
         return $this->belongsTo(ServiceType::class);

@@ -9,11 +9,15 @@ use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Rekayasa\ApplicationReplicationController;
 use App\Http\Controllers\Rekayasa\MentoringPerformanceController;
+
 use App\Http\Controllers\Intop\IntegrationSummaryController;
 use App\Http\Controllers\Intop\ServiceCatalogController;
+use App\Http\Controllers\Intop\IntopMandateServiceSummaryController;
+
 use App\Http\Controllers\Sidebar\DocumentStatController;
 use App\Http\Controllers\Sidebar\MetricController;
 use App\Http\Controllers\Sidebar\OpdUsageController;
+
 use App\Http\Controllers\SmartJabar\JoinedAppController;
 use App\Http\Controllers\SmartJabar\UsageStatController;
 use App\Http\Controllers\SadaJabar\AppIntegrationController;
@@ -27,6 +31,7 @@ use App\Http\Controllers\Appman\IntegrationMappingController;
 use App\Http\Controllers\Appman\InventoryStatController;
 use App\Http\Controllers\Appman\KatalapsRegencyController;
 use App\Http\Controllers\Appman\TeamSupportFacilityController;
+
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
@@ -104,6 +109,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/service-catalogs/{id}/edit', [ServiceCatalogController::class, 'edit']);
         Route::put('/service-catalogs/{id}', [ServiceCatalogController::class, 'update']);
         Route::delete('/service-catalogs/{id}', [ServiceCatalogController::class, 'destroy']);
+
+        Route::get('/intop-mandate-service-summaries', [IntopMandateServiceSummaryController::class, 'index']);
+        Route::get('/intop-mandate-service-summaries/create', [IntopMandateServiceSummaryController::class, 'create']);
+        Route::post('/intop-mandate-service-summaries', [IntopMandateServiceSummaryController::class, 'store']);
+        Route::get('/intop-mandate-service-summaries/{id}/edit', [IntopMandateServiceSummaryController::class, 'edit']);
+        Route::put('/intop-mandate-service-summaries/{id}', [IntopMandateServiceSummaryController::class, 'update']);
+        Route::delete('/intop-mandate-service-summaries/{id}', [IntopMandateServiceSummaryController::class, 'destroy']);
     });
 
     Route::prefix('sidebar')->group(function () {

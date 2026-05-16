@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 
 class ServiceCatalogController extends Controller
 {
-
     protected $intopId = 4;
 
     public function index()
     {
-        $items = IntopServiceCatalog::query()->latest('id')->get();
-        return response()->json(compact('items'));
+        $data = IntopServiceCatalog::query()
+            ->latest('id')
+            ->get()
+            ->map(fn($item) => $this->withPercentage($item));
+
+        return response()->json($data);
     }
 
     public function create()
@@ -25,12 +28,15 @@ class ServiceCatalogController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category'        => 'required|string|max:255',
-            'service_name'    => 'required|string|max:255',
-            'year'            => 'required|integer|min:2000|max:2099',
+            'month'                => 'required|integer|min:1|max:12',
+            'year'                 => 'required|integer|min:2000|max:2099',
+            'adm_service_count'    => 'required|integer|min:0',
+            'public_service_count' => 'required|integer|min:0',
+            'target_abs'           => 'required|numeric|min:0',
+            'achievement_abs'      => 'required|numeric|min:0',
         ]);
 
-        $validated["service_type_id"] = $this->intopId;
+        $validated['service_type_id'] = $this->intopId;
 
         IntopServiceCatalog::create($validated);
 
@@ -40,21 +46,24 @@ class ServiceCatalogController extends Controller
     public function edit($id)
     {
         $item = IntopServiceCatalog::findOrFail($id);
-        return response()->json(compact('item'));
+
+        return response()->json($this->withPercentage($item));
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'category'        => 'required|string|max:255',
-            'service_name'    => 'required|string|max:255',
-            'year'            => 'required|integer|min:2000|max:2099',
+            'month'                => 'required|integer|min:1|max:12',
+            'year'                 => 'required|integer|min:2000|max:2099',
+            'adm_service_count'    => 'required|integer|min:0',
+            'public_service_count' => 'required|integer|min:0',
+            'target_abs'           => 'required|numeric|min:0',
+            'achievement_abs'      => 'required|numeric|min:0',
         ]);
 
-        $validated["service_type_id"] = $this->intopId;
+        $validated['service_type_id'] = $this->intopId;
 
-        $item = IntopServiceCatalog::findOrFail($id);
-        $item->update($validated);
+        IntopServiceCatalog::findOrFail($id)->update($validated);
 
         return response()->json(['message' => 'Data berhasil diperbarui.']);
     }
@@ -62,6 +71,19 @@ class ServiceCatalogController extends Controller
     public function destroy($id)
     {
         IntopServiceCatalog::findOrFail($id)->delete();
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
+    }
+
+    // ─── fungsi hitung presentase ───────────────────────────────────────────────────────────────
+    private function withPercentage(IntopServiceCatalog $item): array
+    {
+        $total = $item->adm_service_count + $item->public_service_count;
+
+        return [
+            ...$item->toArray(),
+            'target_percentage'         => (float) $item->target_abs,
+            'achievement_percentage'    => (float) $item->achievement_abs,
+        ];
     }
 }

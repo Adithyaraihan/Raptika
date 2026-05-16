@@ -13,7 +13,14 @@ class TeamSupportFacilityController extends Controller
     public function index()
     {
         $data = AppmanTeamSupportFacility::where('service_type_id', $this->appmanId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+            ->orderByDesc('year')
+            ->orderByDesc('month')
+            ->get();
+
+        $data->map(function ($item) {
+            $item->total = $item->total_pd + $item->total_apps;
+            return $item;
+        });
 
         return response()->json(compact('data'));
     }
@@ -31,11 +38,11 @@ class TeamSupportFacilityController extends Controller
             'total_pd' => 'required|integer|min:0',
             'total_apps' => 'required|integer|min:0',
         ]);
-        
+
         $validated['service_type_id'] = $this->appmanId;
-        
+
         AppmanTeamSupportFacility::create($validated);
-        
+
         return response()->json(['message' => 'Data berhasil ditambahkan.']);
     }
 
@@ -48,16 +55,16 @@ class TeamSupportFacilityController extends Controller
     public function update(Request $request, $id)
     {
         $item = AppmanTeamSupportFacility::findOrFail($id);
-        
+
         $validated = $request->validate([
             'month' => 'required|integer|min:1|max:12',
             'year' => 'required|integer|min:2000|max:2099',
             'total_pd' => 'required|integer|min:0',
             'total_apps' => 'required|integer|min:0',
         ]);
-        
+
         $item->update($validated);
-        
+
         return response()->json(['message' => 'Data berhasil diperbarui.']);
     }
 
@@ -65,7 +72,7 @@ class TeamSupportFacilityController extends Controller
     {
         $item = AppmanTeamSupportFacility::findOrFail($id);
         $item->delete();
-        
+
         return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

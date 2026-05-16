@@ -13,11 +13,16 @@ return new class extends Migration
             $table->foreignId('service_type_id')
                 ->constrained('service_types')
                 ->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('category', ['administrasi', 'publik'])
-                ->comment('Administrasi Pemerintahan atau Layanan Publik');
-            $table->string('service_name')
-                ->comment('Contoh: Keuangan, Kepegawaian, Pajak dan Retribusi');
-            $table->smallInteger('year');
+            $table->tinyInteger('month')->unsigned();
+            $table->smallInteger('year')->unsigned();
+            $table->integer('adm_service_count')->default(0)
+                ->comment('Jumlah layanan administrasi pemerintahan');
+            $table->integer('public_service_count')->default(0)
+                ->comment('Jumlah layanan publik');
+            $table->decimal('target_abs', 8, 2)->default(0)
+                ->comment('Target absolut');
+            $table->decimal('achievement_abs', 8, 2)->default(0)
+                ->comment('Capaian absolut');
             $table->timestamps();
         });
         //
