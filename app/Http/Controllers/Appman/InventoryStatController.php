@@ -10,10 +10,15 @@ class InventoryStatController extends Controller
 {
     protected $appmanId = 5;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = AppmanInventoryStat::where('service_type_id', $this->appmanId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+        $query = AppmanInventoryStat::where('service_type_id', $this->appmanId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')->orderByDesc('month')->get();
 
         return response()->json(compact('data'));
     }

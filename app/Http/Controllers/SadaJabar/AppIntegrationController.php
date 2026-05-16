@@ -11,11 +11,16 @@ class AppIntegrationController extends Controller
 {
     protected $sadajabarId = 1;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = SadajabarAppIntegration::with('institutionCategory')
-            ->where('service_type_id', $this->sadajabarId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+        $query = SadajabarAppIntegration::with('institutionCategory')
+            ->where('service_type_id', $this->sadajabarId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')->orderByDesc('month')->get();
 
         return response()->json(compact('data'));
     }

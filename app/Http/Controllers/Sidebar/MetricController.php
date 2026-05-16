@@ -11,9 +11,16 @@ class MetricController extends Controller
 
     protected $sidebarId = 6;
 
-    public function index()
+    public function index(Request $request)
     {
-        $items = SidebarMetric::with('serviceType')->where('service_type_id', $this->sidebarId)->latest('id')->get();
+        $query = SidebarMetric::with('serviceType')->where('service_type_id', $this->sidebarId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $items = $query->latest('id')->get();
+
         return response()->json(compact('items'));
     }
 

@@ -10,10 +10,15 @@ class JoinedAppController extends Controller
 {
     protected $smartJabarId = 2;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = SmartjabarJoinedApp::where('service_type_id', $this->smartJabarId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+        $query = SmartjabarJoinedApp::where('service_type_id', $this->smartJabarId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')->orderByDesc('month')->get();
 
         return response()->json(compact('data'));
     }

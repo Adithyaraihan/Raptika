@@ -10,9 +10,15 @@ class IntegrationSummaryController extends Controller
 {
     protected $intopId = 4;
 
-    public function index()
+    public function index(Request $request)
     {
-        $items = IntopIntegrationSummary::with('serviceType')->where('service_type_id', $this->intopId)->latest('id')->get();
+        $query = IntopIntegrationSummary::with('serviceType')->where('service_type_id', $this->intopId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $items = $query->latest('id')->get();
         return response()->json(compact('items'));
     }
 

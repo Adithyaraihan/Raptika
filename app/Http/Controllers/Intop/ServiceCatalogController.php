@@ -10,10 +10,15 @@ class ServiceCatalogController extends Controller
 {
     protected $intopId = 4;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = IntopServiceCatalog::query()
-            ->latest('id')
+        $query = IntopServiceCatalog::query();
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->latest('id')
             ->get()
             ->map(fn($item) => $this->withPercentage($item));
 

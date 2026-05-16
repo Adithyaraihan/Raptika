@@ -10,9 +10,16 @@ class MentoringPerformanceController extends Controller
 {
     protected $rekayasaId = 3;
 
-    public function index()
+    public function index(Request $request)
     {
-        $items = RekayasaMentoringPerformance::with('serviceType')->where('service_type_id', $this->rekayasaId)->latest('id')->get();
+        $query = RekayasaMentoringPerformance::with('serviceType')->where('service_type_id', $this->rekayasaId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $items = $query->latest('id')->get();
+
         return response()->json(compact('items'));
     }
 

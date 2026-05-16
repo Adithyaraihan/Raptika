@@ -10,9 +10,16 @@ class OpdUsageController extends Controller
 {
     protected $sidebarId = 6;
 
-    public function index()
+    public function index(Request $request)
     {
-        $items = SidebarOpdUsage::with('serviceType')->where('service_type_id', $this->sidebarId)->latest('id')->get();
+        $query = SidebarOpdUsage::with('serviceType')->where('service_type_id', $this->sidebarId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $items = $query->latest('id')->get();
+
         return response()->json(compact('items'));
     }
 

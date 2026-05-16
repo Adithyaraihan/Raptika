@@ -10,11 +10,15 @@ class IntegrationMappingController extends Controller
 {
     protected $appmanId = 5;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = AppmanIntegrationMapping::where('service_type_id', $this->appmanId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+        $query = AppmanIntegrationMapping::where('service_type_id', $this->appmanId);
 
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')->orderByDesc('month')->get();
 
         $data->map(function ($item) {
             $item->not_integrated = $item->integration_opportunity - $item->integrated;

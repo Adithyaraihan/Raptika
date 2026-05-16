@@ -10,12 +10,16 @@ class TeamSupportFacilityController extends Controller
 {
     protected $appmanId = 5;
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = AppmanTeamSupportFacility::where('service_type_id', $this->appmanId)
-            ->orderByDesc('year')
-            ->orderByDesc('month')
-            ->get();
+        $query = AppmanTeamSupportFacility::where('service_type_id', $this->appmanId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')
+            ->orderByDesc('month')->get();
 
         $data->map(function ($item) {
             $item->total = $item->total_pd + $item->total_apps;

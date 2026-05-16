@@ -56,10 +56,15 @@ class UsageStatController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = SmartjabarUsageStat::where('service_type_id', $this->smartJabarId)
-            ->orderByDesc('year')->orderByDesc('month')->get();
+        $query = SmartjabarUsageStat::where('service_type_id', $this->smartJabarId);
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $data = $query->orderByDesc('year')->orderByDesc('month')->get();
 
         return response()->json(compact('data'));
     }
@@ -70,34 +75,29 @@ class UsageStatController extends Controller
         return response()->json(compact('opds'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'month' => 'required|integer',
-            'year'  => 'required|integer',
-            'stats' => 'required|array',
-        ]);
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'opd_id'       => 'required|exists:general_opd,id',
+        'month'        => 'required|integer|min:1|max:12',
+        'year'         => 'required|integer|min:2000|max:2099',
+        'total_asn'    => 'required|integer|min:0',
+        'active_users' => 'required|integer|min:0|lte:total_asn',
+    ]);
 
-        DB::transaction(function () use ($request) {
-            foreach ($request->stats as $opdName => $values) {
-                $opd = GeneralOpd::where('name', $opdName)->first();
+    $stat = SmartjabarUsageStat::create([
+        'service_type_id' => $this->smartJabarId,
+        'opd_id'          => $validated['opd_id'],
+        'month'           => $validated['month'],
+        'year'            => $validated['year'],
+        'total_asn'       => $validated['total_asn'],
+        'active_users'    => $validated['active_users'],
+    ]);
 
-                if ($opd) {
-                    SmartjabarUsageStat::create([
-                        'service_type_id' => $this->smartJabarId,
-                        'opd_id'          => $opd->id,
-                        'month'           => $request->month,
-                        'year'            => $request->year,
-                        'total_asn'       => $values['total_asn'] ?? 0,
-                        'active_users'    => $values['active_users'] ?? 0,
-                    ]);
-                }
-            }
-        });
-
-        return response()->json(['message' => 'Data statistik berhasil disimpan ke database (Relational).'], 201);
-    }
-
+    return response()->json([
+        'message' => 'Data statistik berhasil disimpan.',
+    ], 201);
+}
     public function edit($id)
     {
         $stat = SmartjabarUsageStat::findOrFail($id);
